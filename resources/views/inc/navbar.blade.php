@@ -15,11 +15,15 @@
         <li>
           <a class="nav-link" href="/services" >Services</a>
         </li>
-
+        
+        <li>
+          <a class="nav-link" href="/notes" >My notes</a>
+        </li>
       </ul>
-      {{-- <ul class="nav navbar-nav navbar-right">
-        <li><a href="/posts/create">Created Post</a></li>
-      </ul> --}}
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a class="nav-link" href="/notes/create">Create Note</a></li>
+      </ul>
       <ul class="navbar-nav ml-auto">
         <!-- Authentication Links -->
         @guest
