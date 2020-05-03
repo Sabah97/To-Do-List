@@ -44,6 +44,7 @@ class NotesController extends Controller
         $note=new Note;
         $note->title=$request->input('title');
         $note->body=$request->input('body');
+        $note->user_id=auth()->user()->id;
         $note->save();
         return redirect('/notes')->with('success', 'Note created');
     }
@@ -68,7 +69,8 @@ class NotesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $note= Note::find($id);
+       return view('notes.edit')->with('note',$note);
     }
 
     /**
@@ -80,7 +82,15 @@ class NotesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'title'=>'required',
+            'body'=>'required'
+        ]);
+        $note=Note::find($id);
+        $note->title=$request->input('title');
+        $note->body=$request->input('body');
+        $note->save();
+        return redirect('/notes')->with('success', 'Note updated');
     }
 
     /**
@@ -91,6 +101,8 @@ class NotesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $note=Note::find($id);
+        $note->delete();
+        return redirect ('/notes')->with('success', 'Note Deleted');
     }
 }

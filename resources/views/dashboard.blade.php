@@ -6,15 +6,18 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
-
                 <div class="card-body">
+                    <a href="/notes/create/" class="btn btn-primary"> Write Note!</a>
+                    <h3>Your notes</h3>
+
+                {{-- <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
-                    @endif
+                    @endif --}}
 
-                    You are logged in!
+                    {{-- You are logged in! --}}
                 </div>
             </div>
         </div>
