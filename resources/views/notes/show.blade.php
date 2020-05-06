@@ -9,7 +9,7 @@
 </div>
 
 <hr>
-<small>Written on {{$note->created_at}}</small>
+<small>Written on {{$note->created_at}} by {{$note->user->name}}</small>
 
 <hr>
 <a href="/notes/{{$note->id}}/edit" class="btn btn-primary"> Edit</a>

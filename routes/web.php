@@ -23,4 +23,9 @@ Route::get('/services','PagesController@services');
 Route::resource('notes','NotesController');
 
 
+
+
 Route::get('/dashboard', 'DashboardController@index');
+
+// Route::get('/dashboard', 'NotesController@show');
+

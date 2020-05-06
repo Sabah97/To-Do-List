@@ -16,9 +16,9 @@
           <a class="nav-link" href="/services" >Services</a>
         </li>
         
-        <li>
+        {{-- <li>
           <a class="nav-link" href="/notes" >My notes</a>
-        </li>
+        </li> --}}
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
