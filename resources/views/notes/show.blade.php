@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<a href="/notes" class="btn btn-primary"> Go Back</a>
+<a href="/dashboard" class="btn btn-primary"> Go Back</a>
 <hr>
 <h1>{{$note->title}}</h1>
+<img style="width:100%" src="/storage/cover_images/{{$note->cover_image}}">
+<br>
 
 <div>
     {!!$note->body!!}

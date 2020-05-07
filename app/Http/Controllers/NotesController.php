@@ -3,11 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Note;
 use DB;
 
 class NotesController extends Controller
 {
+
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+
+     //for user authentication
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -39,12 +52,34 @@ class NotesController extends Controller
     {
         $this->validate($request,[
             'title'=>'required',
-            'body'=>'required'
+            'body'=>'required',
+            'cover_image' =>'image|nullable|max:1999'
         ]);
+
+        if($request->hasFile('cover_image')){
+            $filenameWithExt= $request-> file('cover_image')->getClientOriginalName();
+            //Get just filename
+            $filename=pathinfo( $filenameWithExt, PATHINFO_FILENAME);
+
+            //get just ext
+            $extension=$request->file('cover_image')->getCLientOriginalExtension();
+
+            //filenametostore
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            //upload
+            $path= $request->file('cover_image')->storeAs('public/cover_images',$fileNameToStore);
+        }
+        else{
+            $fileNameToStore= 'noimage.jpg';
+
+        }
+
+        //Create Note
         $note=new Note;
         $note->title=$request->input('title');
         $note->body=$request->input('body');
         $note->user_id=auth()->user()->id;
+        $note->cover_image=$fileNameToStore;
         $note->save();
         return redirect('/dashboard')->with('success', 'Note created');
     }
@@ -86,9 +121,27 @@ class NotesController extends Controller
             'title'=>'required',
             'body'=>'required'
         ]);
+
+        if($request->hasFile('cover_image')){
+            $filenameWithExt= $request-> file('cover_image')->getClientOriginalName();
+            //Get just filename
+            $filename=pathinfo( $filenameWithExt, PATHINFO_FILENAME);
+
+            //get just ext
+            $extension=$request->file('cover_image')->getCLientOriginalExtension();
+
+            //filenametostore
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            //upload
+            $path= $request->file('cover_image')->storeAs('public/cover_images',$fileNameToStore);
+        }
+        
         $note=Note::find($id);
         $note->title=$request->input('title');
         $note->body=$request->input('body');
+        if($request->hasFile('cover_image')){
+            $note->cover_image=$fileNameToStore;
+        }
         $note->save();
         return redirect('/dashboard')->with('success', 'Note updated');
     }
@@ -102,6 +155,14 @@ class NotesController extends Controller
     public function destroy($id)
     {
         $note=Note::find($id);
+        if(auth()->user()->id!==$note->user_id){
+            return redirect('/dashboard')->with('error','Unauthorized page');
+        }
+        if($note->cover_image!='noimage.jpg'){
+            //delete image
+            Storage::delete('public/cover_images/'.$note->cover_image);
+
+        }
         $note->delete();
         return redirect ('/dashboard')->with('success', 'Note Deleted');
     }

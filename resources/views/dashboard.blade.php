@@ -23,19 +23,36 @@
                             <td><a href="/notes/{{$note->id}}">{{$note->title}}</a></td>
                             {{-- <h3><a href="/notes/{{$note->id}}">{{$note->title}}</a></h3> --}}
              
-                            
-                            
-                            <td><small>Written on {{$note->created_at}} by {{$note->user->name}}</small>
-                                <a href="/notes/{{$note->id}}/edit" class="btn btn-primary"> Edit</a></td>
-                            <td>{!!Form::open(['action' =>['NotesController@destroy', $note->id], 'method'=>'POST', 'class' =>'float-right'])!!}
+                            <td>
+                                <div class="col-md-4 col-sm-4">
+                                    <img style="width:100%" src="/storage/cover_images/{{$note->cover_image}}">
+                                </div>
+                                <div class="col-md-8 col-sm-8">
+                                <small>Written on {{$note->created_at}} by {{$note->user->name}}</small>
+                                <a href="/notes/{{$note->id}}/edit" class="btn btn-primary"> Edit</a>
+                                {!!Form::open(['action' =>['NotesController@destroy', $note->id], 'method'=>'POST', 'class' =>'float-right'])!!}
                                 {{Form::hidden('_method','DELETE')}}
                                 {{Form::submit('Delete',['class'=>"btn btn-danger"])}}
-                                {!!Form::close()!!}</td>
+                                {!!Form::close()!!}
+                            
+                                </div>
+                            </td>
+                            {{-- <td><small>Written on {{$note->created_at}} </small>
+                                <a href="/notes/{{$note->id}}/edit" class="btn btn-primary"> Edit</a>
+                                {!!Form::open(['action' =>['NotesController@destroy', $note->id], 'method'=>'POST', 'class' =>'float-right'])!!}
+                                {{Form::hidden('_method','DELETE')}}
+                                {{Form::submit('Delete',['class'=>"btn btn-danger"])}}
+                                {!!Form::close()!!} --}}
+                            </td>
+                        
+                            
+                            
                         </tr>
                         @endforeach
-                        {{-- {{$notes->links()}} --}}
+                        
                         
                     </table>
+                    
                     @else
                     <p>No Notes yet &#128580;</p>
                     @endif
